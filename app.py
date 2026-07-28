@@ -69,6 +69,8 @@ st.markdown(f"""
 .trophy-box .tag {{ font-weight:800; font-size:13.5px; color:{AMBER}; margin-bottom:7px;}}
 .trophy-box p {{ font-size:12.5px; color:{SUB}; line-height:1.5; margin:0;}}
 div.stButton > button {{ width:100%; border-radius:10px; font-weight:700; padding:0.6em; }}
+button[kind="primary"] {{ background-color:{GREEN} !important; border-color:{GREEN} !important; color:#fff !important; }}
+button[kind="primary"]:hover {{ background-color:#18543f !important; border-color:#18543f !important; }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -173,12 +175,12 @@ for i, (col, label) in enumerate(zip(cols, STEPS)):
 st.caption(" · ".join(f"**{i+1}**. {l}" if i == st.session_state.step else f"{i+1}. {l}" for i, l in enumerate(STEPS)))
 
 st.markdown("<br>", unsafe_allow_html=True)
-st.markdown('<div class="phone">', unsafe_allow_html=True)
 
 step = st.session_state.step
 
 if step == 0:
     st.markdown(f"""
+    <div class="phone">
     <div class="topbar"><div class="logo"><span class="b">blink</span><span class="k">it</span></div><div class="eta">8 min delivery</div></div>
     <div class="search">🔍 Search "milk"</div>
     <div class="label">FREQUENTLY BOUGHT — SAME AS EVERY WEEK</div>
@@ -189,13 +191,15 @@ if step == 0:
       <div class="tag">✨ NEW FOR YOU, RIGHT HERE IN YOUR FEED</div>
       <p style="font-size:13.5px; line-height:1.5; margin:0 0 6px;">A ₹49 Electronics item people like you keep adding alongside their grocery order.</p>
     </div>
+    <div class="footnote">No separate "Explore" tab — this rides inside the search-first habit itself.</div>
+    </div>
     """, unsafe_allow_html=True)
     if st.button("See the ₹49 starter", key="btn0"):
         goto(1)
-    st.markdown('<div class="footnote">No separate "Explore" tab — this rides inside the search-first habit itself.</div>', unsafe_allow_html=True)
 
 elif step == 1:
     st.markdown(f"""
+    <div class="phone">
     <div class="topbar"><div class="logo"><span class="b">blink</span><span class="k">it</span></div><div class="eta">8 min delivery</div></div>
     <div class="stepper">ELECTRONICS EXPLORER · Step 1 of 2</div>
     <div class="progress"><div class="fill" style="width:8%"></div></div>
@@ -210,6 +214,7 @@ elif step == 1:
       </div>
       <div class="desc">Almost no risk at this price — the easiest way to see if you'll trust Blinkit with Electronics.</div>
     </div>
+    </div>
     """, unsafe_allow_html=True)
     if st.button("Add to basket — ₹49", key="btn1"):
         goto(2)
@@ -218,18 +223,21 @@ elif step == 2:
     rows = "".join(f'<div class="basket-row"><span>{n}</span><span>₹{p}</span></div>' for n, p, _ in GROCERIES)
     total = sum(p for _, p, _ in GROCERIES) + TRIAL_ITEM["price"]
     st.markdown(f"""
+    <div class="phone">
     <div class="topbar"><div class="logo"><span class="b">blink</span><span class="k">it</span></div><div class="eta">8 min delivery</div></div>
     <div class="basket-title">🧺 Your basket</div>
     {rows}
     <div class="basket-new"><span>🔌 {TRIAL_ITEM['name']}<span class="new-tag">NEW</span></span><span>₹{TRIAL_ITEM['price']}</span></div>
     <div class="total-row"><span>Total</span><span>₹{total}</span></div>
+    <div class="footnote">One trip, one delivery — no separate "trying electronics" errand.</div>
+    </div>
     """, unsafe_allow_html=True)
     if st.button("Place order", key="btn2"):
         goto(3)
-    st.markdown('<div class="footnote">One trip, one delivery — no separate "trying electronics" errand.</div>', unsafe_allow_html=True)
 
 elif step == 3:
     st.markdown(f"""
+    <div class="phone">
     <div class="confirm">
       <div class="check-circle">✓</div>
       <h2>Order placed</h2>
@@ -239,18 +247,21 @@ elif step == 3:
         <p>Your cable's on its way. Next time you open Blinkit, we'll show you what usually comes next.</p>
       </div>
     </div>
+    </div>
     """, unsafe_allow_html=True)
     if st.button("Continue → a few days later", key="btn3"):
         goto(4)
 
 elif step == 4:
     st.markdown(f"""
+    <div class="phone">
     <div class="topbar"><div class="logo"><span class="b">blink</span><span class="k">it</span></div><div class="eta">8 min delivery</div></div>
     <div class="daynote">3 days later · opening Blinkit for the weekly grocery run</div>
     <div class="search">🔍 Search "eggs"</div>
     <div class="reengage">
       <div class="tag">✓ YOUR CABLE ARRIVED — HOW WAS IT?</div>
       <p style="font-size:13.5px; line-height:1.5; margin:0 0 6px;">Since that went well, here's what most people try next in Electronics.</p>
+    </div>
     </div>
     """, unsafe_allow_html=True)
     if st.button("Show me", key="btn4"):
@@ -262,6 +273,7 @@ elif step == 5:
     ai = st.session_state.ai or get_upsell()
     st.session_state.ai = ai
     st.markdown(f"""
+    <div class="phone">
     <div class="topbar"><div class="logo"><span class="b">blink</span><span class="k">it</span></div><div class="eta">8 min delivery</div></div>
     <div class="progress"><div class="fill" style="width:60%"></div></div>
     <div class="ai-card">
@@ -279,12 +291,14 @@ elif step == 5:
         <div class="conf-line">🔒 {ai['confidence_line']}</div>
       </div>
     </div>
+    </div>
     """, unsafe_allow_html=True)
     if st.button(f"Add to cart & place order — ₹{UPSELL_ITEM['price']}", key="btn5"):
         goto(6)
 
 elif step == 6:
     st.markdown(f"""
+    <div class="phone">
     <div class="confirm">
       <div class="check-circle" style="background:{AMBER};">🎉</div>
       <h2>Order placed</h2>
@@ -295,9 +309,8 @@ elif step == 6:
       </div>
       <div class="progress" style="margin-top:15px;"><div class="fill" style="width:100%"></div></div>
     </div>
+    </div>
     """, unsafe_allow_html=True)
-
-st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 c1, c2 = st.columns(2)
